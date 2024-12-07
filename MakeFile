@@ -1,0 +1,27 @@
+CXX = g++
+CXXFLAGS = -Wall -Wextra -std=c++17
+EXEC = game
+
+SRC = src/point.cpp src/board.cpp src/painter.cpp src/snake.cpp
+OBJ = $(SRC:.cpp=.o)
+
+TESTS = tests/test_point.cpp tests/test_board.cpp tests/test_snake.cpp
+TEST_OBJS = $(TESTS:.cpp=.o)
+TEST_EXEC = tests/tests
+
+.PHONY: all clean test
+
+all: $(EXEC)
+
+$(EXEC): $(OBJ)
+	$(CXX) $(OBJ) -o $(EXEC)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+test: $(TEST_OBJS)
+	$(CXX) $(CXXFLAGS) $(TEST_OBJS) -o $(TEST_EXEC)
+	./$(TEST_EXEC)
+
+clean:
+	rm -f $(OBJ) $(EXEC) $(TEST_OBJS) $(TEST_EXEC) *.a
